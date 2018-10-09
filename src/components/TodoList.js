@@ -21,7 +21,7 @@ class TodoList extends Component {
     );
 
     return (
-      <div uk-grid="true" className="uk-grid-medium uk-child-width-1-2@s uk-child-width-1-3@m">
+      <div uk-grid="masonry: true" className="uk-grid-medium uk-child-width-1-2@s uk-child-width-1-3@m">
         {todoList}
       </div>
     );
@@ -29,3 +29,4 @@ class TodoList extends Component {
 }
 
 export default TodoList;
+

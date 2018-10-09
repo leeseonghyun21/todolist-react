@@ -55,25 +55,31 @@ class App extends Component {
   }
 
   handleInsert = () => {
-    const { input, todos} = this.state;
+    const { input, todos } = this.state;
 
     const newTodo = {
       id: this.getId(),
       text: input,
       done: false
     };
-
-    this.setState({
-      todos:[...todos, newTodo ],
-      input: ''
-    });
+    if(input === '') {
+      alert('내용을 입력하세요!');
+    }
+    else {
+      this.setState({
+        todos:[...todos, newTodo ],
+        input: ''
+      });
+    }
   }
 
   handleRemove = (id) => {
-    const { todos } = this.state;
-    this.setState({
-      todos: todos.filter(todo => todo.id !== id),
-    });
+    if(window.confirm('정말 삭제하시겠습니까?')) {
+      const { todos } = this.state;
+      this.setState({
+        todos: todos.filter(todo => todo.id !== id),
+      });
+    }    
   }
 
   render() {

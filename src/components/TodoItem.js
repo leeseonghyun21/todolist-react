@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from 'react';
 
 class TodoItem extends Component {
+  textInput = React.createRef();
+
   state = {
     editing: false,
     text: ''
@@ -20,7 +22,7 @@ class TodoItem extends Component {
 
   handleToggleEdit = () => {
     const{ todo, onUpdate } = this.props;
-
+    
     if(this.state.editing) {
       onUpdate(todo.id, {
         text: this.state.text
@@ -34,6 +36,7 @@ class TodoItem extends Component {
     this.setState({
       editing: !this.state.editing
     });
+    this.textInput.current.focus();
   }
 
   render() {
@@ -46,11 +49,16 @@ class TodoItem extends Component {
             <Fragment>
               <div className="uk-card uk-card-default uk-card-hover">
                 <div className="uk-card-body">
-                  <input className="uk-input" placeholder="수정할 내용" onChange={this.handleChange} value={this.state.text} /> 
+                  <input
+                    ref={this.textInput}
+                    className="uk-input" 
+                    placeholder="수정할 내용" 
+                    onChange={this.handleChange}
+                    value={this.state.text} /> 
                 </div>
                 <div className="uk-card-footer">
                   <a href="#" className="uk-icon-link uk-margin-medium-right" uk-icon="check"></a>
-                  <a href="#" className="uk-icon-link uk-margin-medium-right" uk-icon="pencil" onClick={this.handleToggleEdit}></a>
+                  <a href="#" className="uk-icon-link uk-margin-medium-right" uk-icon="check" onClick={this.handleToggleEdit}></a>
                   <a href="#" className="uk-icon-link" uk-icon="trash" onClick={this.handleRemove}></a>
                 </div>
               </div>

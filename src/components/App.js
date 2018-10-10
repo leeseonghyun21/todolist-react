@@ -93,7 +93,9 @@ class App extends Component {
           value={input}
         />
         <TodoList
-          todos={todos}
+          todos={todos.filter(
+            todo => todo.text.indexOf(input) > -1
+          )}
           onDone={this.handleDone}
           onUpdate={this.handleUpdate}
           onRemove={this.handleRemove}/>

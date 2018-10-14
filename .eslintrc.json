@@ -37,9 +37,11 @@
             }
         ],
         "no-console": [0],
+        "no-undef":"error",
         "no-unused-vars": [
             "error",
             { "args": "none" }
-        ]
+        ],
+        "react/prop-types": [0]
     }
 }

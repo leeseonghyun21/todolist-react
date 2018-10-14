@@ -1,20 +1,67 @@
-import React from 'react';
+import React, { Component } from 'react';
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
+
+import 'react-datepicker/dist/react-datepicker.css';
 import '../styles/TodoInput.scss';
 
-const TodoInput = ({value, onChange, onInsert}) => {
+class TodoInput extends Component {  
+  constructor (props) {
+    super(props);
+    this.state = {
+      date: moment(),
+      text:''
+    };
+    this.handleDateChange = this.handleDateChange.bind(this);
+  }
+  
+  handleTextChange = (e) => {
+    this.setState({
+      text: e.target.value
+    });
+  }
 
-  const handleKeyPress = (e) => {
+  handleDateChange = (d) => {
+    this.setState({
+      date: d
+    });
+  }
+
+  handleKeyPress = (e) => {
     if(e.key === 'Enter') {
-      onInsert();
+      this.handleSubmit(e);
     }
-  };
+  }
 
-  return(
-    <div className="todo-input uk-margin-large-bottom">
-      <input className="uk-input" placeholder="추가하거나 검색할 내용 입력" onChange={onChange} onKeyPress={handleKeyPress} value={value} />
-      <button className="uk-button uk-button-default" onClick={onInsert} uk-icon="plus"></button>
-    </div>
-  );
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.onInsert(this.state);
+
+    this.setState({
+      date: moment(),
+      text: ''
+    });
+  }
+  
+  render() {
+    const { text, date } = this.state;
+    return(
+      <div className="todo-input uk-margin-large-bottom">
+        <input
+          className="uk-input"
+          placeholder="추가할 내용 입력"
+          onChange={this.handleTextChange}
+          onKeyPress={this.handleKeyPress}
+          value={text}/>
+        <DatePicker
+          className="uk-input"
+          selected={this.state.date}
+          onChange={this.handleDateChange}
+          dateFormat="YYYY/MM/DD" 
+          value={date.format('YYYY/MM/DD')}/>
+        <button onClick={this.handleSubmit} className="uk-button uk-button-default" uk-icon="plus"></button>
+      </div>);
+  }
 };
 
 export default TodoInput;

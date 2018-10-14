@@ -3,12 +3,20 @@
   text-decoration: underline;
 }
 
-input {
-  font-weight: 300;
-}
-
-.uk-card-body {
-  p {
+.uk-card {
+  input {
     font-weight: 300;
   }
+  .uk-card-header {
+    p {
+      font-weight: 300;
+    }
+  }
+  
+  .uk-card-body {
+    p {
+      font-weight: 300;
+    }
+  }
+
 }

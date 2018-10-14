@@ -1,25 +1,26 @@
 import React, { Component } from 'react';
-import '../styles/App.scss';
+
 import PageTemplate from './PageTemplate';
 import TodoInput from './TodoInput';
 import TodoList from './TodoList';
 
-class App extends Component {
-  state = {
-    input: '',
-    todos: [
-      {id: 0, text: '리액트 공부하기', done: true},
-      {id: 1, text: '컴포넌트 스타일링 연습하기', done: false},
-      {id: 2, text: '리덕스 예습하기', done: false}
-    ]
-  }
-  id = 2;
+import '../styles/App.scss';
 
-  handleChange = (e) => {
-    this.setState({
-      input: e.target.value
-    });
-  } 
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      todos: [
+        {id: 0, text: '리액트 공부하기', date:'2018/10/01', done: true},
+        {id: 1, text: '컴포넌트 스타일링 연습하기', date:'2018/10/02', done: false},
+        {id: 2, text: '리덕스 예습하기', date:'2018/10/03', done: false}
+      ],
+      keyword: ''
+    };
+  }
+
+  id = 2;
+  
   getId = () => {
     return ++this.id;
   }
@@ -54,22 +55,22 @@ class App extends Component {
     });
   }
 
-  handleInsert = () => {
-    const { input, todos } = this.state;
+  handleInsert = (data) => {
+    const { todos } = this.state;
 
-    const newTodo = {
-      id: this.getId(),
-      text: input,
-      done: false
-    };
-    if(input === '') {
-      alert('내용을 입력하세요!');
-    }
-    else {
+    if(data.text !== '') {
+      const newTodo = {
+        id: this.getId(),
+        text: data.text,
+        date: data.date.format('YYYY/MM/DD'),
+        done: false
+      };
       this.setState({
         todos:[...todos, newTodo ],
-        input: ''
       });
+    }
+    else {
+      alert('내용을 입력하세요!');
     }
   }
 
@@ -83,23 +84,28 @@ class App extends Component {
   }
 
   render() {
-    const {input, todos} = this.state;
+    const { todos } = this.state;
     
     return(
-      <PageTemplate>
-        <TodoInput 
-          onChange={this.handleChange}
-          onInsert={this.handleInsert}
-          value={input}
-        />
-        <TodoList
-          todos={todos.filter(
-            todo => todo.text.indexOf(input) > -1
-          )}
-          onDone={this.handleDone}
-          onUpdate={this.handleUpdate}
-          onRemove={this.handleRemove}/>
-      </PageTemplate>
+      <div>
+        <PageTemplate>
+          <TodoInput onInsert={this.handleInsert}/>
+          <input 
+            className="uk-input uk-form-width-small"
+            placeholder="검색"
+            onChange={(e) => {this.setState({
+              keyword: e.target.value});}}
+          />
+          <TodoList
+            todos={todos.filter(
+              todo => todo.text.indexOf(this.state.keyword) > -1
+            )}
+            onDone={this.handleDone}
+            onUpdate={this.handleUpdate}
+            onRemove={this.handleRemove}/>
+        </PageTemplate>
+
+      </div>
     );
   }
 }

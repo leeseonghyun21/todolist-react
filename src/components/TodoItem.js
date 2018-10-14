@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+
 import '../styles/TodoItem.scss';
 
 class TodoItem extends Component {
@@ -46,15 +47,15 @@ class TodoItem extends Component {
   }
 
   render() {
-    const {children} = this.props;
     const { editing } = this.state;
+    const { text, date } = this.props.todo;
     return (
       <div>
         {
           editing ? (
             <Fragment>
               <div className="uk-card uk-card-default uk-card-hover">
-                <div className="uk-card-body">
+                <div className="uk-padding">
                   <input
                     className="uk-input" 
                     placeholder="수정할 내용" 
@@ -72,8 +73,11 @@ class TodoItem extends Component {
           ) : (
             <Fragment>
               <div className="uk-card uk-card-default uk-card-hover">
+                <div className="uk-card-header">
+                  <p>{date}</p>
+                </div>
                 <div className="uk-card-body">
-                  <p className="uk-text-large">{children}</p>
+                  <p className="uk-text-large">{text}</p>
                 </div>
                 <div className="uk-card-footer">
                   <button className="uk-icon-link uk-margin-medium-right" uk-icon="check" onClick={()=>{alert('기능 준비중입니다.')}}></button>

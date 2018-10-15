@@ -91,7 +91,7 @@ class App extends Component {
         <PageTemplate>
           <TodoInput onInsert={this.handleInsert}/>
           <input 
-            className="uk-input uk-form-width-small"
+            className="uk-input uk-form-width-medium uk-margin"
             placeholder="검색"
             onChange={(e) => {this.setState({
               keyword: e.target.value});}}

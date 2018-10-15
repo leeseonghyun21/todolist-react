@@ -5,7 +5,8 @@ import '../styles/TodoItem.scss';
 class TodoItem extends Component {
   state = {
     editing: false,
-    text: ''
+    text: '',
+    date: '',
   }
 
   handleChange = (e) => {
@@ -35,12 +36,14 @@ class TodoItem extends Component {
     
     if(this.state.editing) {
       onUpdate(todo.id, {
-        text: this.state.text
+        text: this.state.text,
+        date: this.state.date
       });
     }
     else {
       this.setState({
-        text: todo.text
+        text: todo.text,
+        date: todo.date
       });
     }
     this.handleToggle();
@@ -51,46 +54,45 @@ class TodoItem extends Component {
     const { text, date } = this.props.todo;
     return (
       <div>
-        {
-          editing ? (
-            <Fragment>
-              <div className="uk-card uk-card-default uk-card-hover">
-                <div className="uk-padding">
+        <div className="uk-card uk-card-default uk-card-hover">
+          <div className="uk-card-header">
+            <p>{date}</p>
+          </div>
+          <div className="uk-card-body">
+            {
+              editing ? (
+                <Fragment>
                   <input
                     className="uk-input" 
                     placeholder="수정할 내용" 
                     onChange={this.handleChange}
                     onKeyPress={this.handlePress}
-                    value={this.state.text} /> 
-                </div>
-                <div className="uk-card-footer">
-                  <button className="uk-icon-link uk-margin-medium-right" uk-icon="close" onClick={()=>{this.setState({editing: !this.state.editing})}}></button>
+                    value={this.state.text}/> 
+                </Fragment>
+              ) : (
+                <p className="uk-text-large">{text}</p>
+              )
+            }
+          </div>               
+          <div className="uk-card-footer">
+            {
+              editing ? (
+                <Fragment>
+                  <button className="uk-icon-link uk-margin-medium-right" uk-icon="close" onClick={this.handleToggle}></button>
                   <button className="uk-icon-link uk-margin-medium-right" uk-icon="paint-bucket" onClick={()=>{alert('기능 준비중입니다.')}}></button>
                   <button className="uk-icon-link uk-margin-medium-right" uk-icon="check" onClick={this.handleToggleEdit}></button>
-                </div>
-              </div>
-            </Fragment>
-          ) : (
-            <Fragment>
-              <div className="uk-card uk-card-default uk-card-hover">
-                <div className="uk-card-header">
-                  <p>{date}</p>
-                </div>
-                <div className="uk-card-body">
-                  <p className="uk-text-large">{text}</p>
-                </div>
-                <div className="uk-card-footer">
+                </Fragment>
+              ) : (
+                <Fragment>
                   <button className="uk-icon-link uk-margin-medium-right" uk-icon="check" onClick={()=>{alert('기능 준비중입니다.')}}></button>
                   <button className="uk-icon-link uk-margin-medium-right" uk-icon="bolt" onClick={()=>{alert('기능 준비중입니다.')}}></button>
                   <button className="uk-icon-link uk-margin-medium-right" uk-icon="file-edit" onClick={this.handleToggleEdit}></button>
                   <button className="uk-icon-link" uk-icon="trash" onClick={this.handleRemove}></button>
-                </div>
-              </div>
-            </Fragment>
-          )
-        }
-      </div>
-        
+                </Fragment>
+              )}
+          </div>
+        </div>
+      </div>        
     );
   }
 }

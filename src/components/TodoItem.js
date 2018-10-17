@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import DatePicker from 'react-datepicker';
 
 import '../styles/TodoItem.scss';
 
@@ -9,9 +10,17 @@ class TodoItem extends Component {
     date: '',
   }
 
-  handleChange = (e) => {
+  dateFormat = 'YYYY/MM/DD';
+
+  handleTextChange = (e) => {
     this.setState({
       text: e.target.value
+    });
+  }
+
+  handleDateChange = (d) => {
+    this.setState({
+      date: d
     });
   }
 
@@ -56,7 +65,18 @@ class TodoItem extends Component {
       <div>
         <div className="uk-card uk-card-default uk-card-hover">
           <div className="uk-card-header">
-            <p>{date}</p>
+            {
+              editing ? (
+                <DatePicker 
+                  className="uk-input"
+                  selected={this.state.date}
+                  onChange={this.handleDateChange}
+                  dateFormat="YYYY/MM/DD"                  
+                />
+              ) : (
+                <p>{date.format('YYYY/MM/DD')}</p>
+              )
+            }
           </div>
           <div className="uk-card-body">
             {
@@ -65,7 +85,7 @@ class TodoItem extends Component {
                   <input
                     className="uk-input" 
                     placeholder="수정할 내용" 
-                    onChange={this.handleChange}
+                    onChange={this.handleTextChange}
                     onKeyPress={this.handlePress}
                     value={this.state.text}/> 
                 </Fragment>

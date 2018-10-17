@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import moment from 'moment';
 
 import PageTemplate from './PageTemplate';
 import TodoInput from './TodoInput';
@@ -6,20 +7,20 @@ import TodoList from './TodoList';
 
 import '../styles/App.scss';
 
+
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       todos: [
-        {id: 0, text: '리액트 공부하기', date:'2018/10/01', done: true},
-        {id: 1, text: '컴포넌트 스타일링 연습하기', date:'2018/10/02', done: false},
-        {id: 2, text: '리덕스 예습하기', date:'2018/10/03', done: false}
+        {id: 0, text: '리액트 공부하기', date:moment(), done: false},
+        {id: 1, text: '리덕스 예습하기', date:moment(), done: false}
       ],
       keyword: ''
     };
   }
 
-  id = 2;
+  id = 1;
   
   getId = () => {
     return ++this.id;
@@ -62,12 +63,13 @@ class App extends Component {
       const newTodo = {
         id: this.getId(),
         text: data.text,
-        date: data.date.format('YYYY/MM/DD'),
+        date: data.date,
         done: false
       };
       this.setState({
         todos:[...todos, newTodo ],
       });
+      console.log(todos);
     }
     else {
       alert('내용을 입력하세요!');

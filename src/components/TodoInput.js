@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 
+
 import 'react-datepicker/dist/react-datepicker.css';
 import '../styles/TodoInput.scss';
 
@@ -14,6 +15,8 @@ class TodoInput extends Component {
     };
     this.handleDateChange = this.handleDateChange.bind(this);
   }
+
+  dateFormat = 'YYYY/MM/DD';
   
   handleTextChange = (e) => {
     this.setState({
@@ -57,8 +60,8 @@ class TodoInput extends Component {
           className="uk-input"
           selected={this.state.date}
           onChange={this.handleDateChange}
-          dateFormat="YYYY/MM/DD" 
-          value={date.format('YYYY/MM/DD')}/>
+          dateFormat={this.dateFormat} 
+          value={date.format(this.dateFormat)}/>
         <button onClick={this.handleSubmit} className="uk-button uk-button-default" uk-icon="plus"></button>
       </div>);
   }

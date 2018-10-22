@@ -25,19 +25,21 @@ class TodoItem extends Component {
   }
 
   handleRemove = (e) => {
-    const { onRemove } = this.props;
-    onRemove();
+    this.props.onRemove();
     e.stopPropagation();
   }
 
   handlePress = (e) => {
     if(e.key === 'Enter') this.handleToggleEdit();
   }
-  
-  handleToggle = () => {
-    this.setState({
-      editing: !this.state.editing
-    });
+
+  handleToggleCheck = (id) => {
+    if(this.props.onDone(id)){
+      this.textRef.classList.remove('done');
+    }
+    else {
+      this.textRef.classList.add('done');
+    }
   }
 
   handleToggleEdit = () => {
@@ -55,12 +57,15 @@ class TodoItem extends Component {
         date: todo.date
       });
     }
-    this.handleToggle();
+    this.setState({
+      editing: !this.state.editing
+    });
   }
 
   render() {
     const { editing } = this.state;
     const { text, date } = this.props.todo;
+
     return (
       <div>
         <div className="uk-card uk-card-default uk-card-hover">
@@ -90,7 +95,11 @@ class TodoItem extends Component {
                     value={this.state.text}/> 
                 </Fragment>
               ) : (
-                <p className="uk-text-large">{text}</p>
+                <p
+                  ref={(ref) => this.textRef = ref}
+                  className="uk-text-large">
+                  {text}
+                </p>
               )
             }
           </div>               
@@ -104,7 +113,7 @@ class TodoItem extends Component {
                 </Fragment>
               ) : (
                 <Fragment>
-                  <button className="uk-icon-link uk-margin-medium-right" uk-icon="check" onClick={()=>{alert('기능 준비중입니다.')}}></button>
+                  <button className="uk-icon-link uk-margin-medium-right" uk-icon="check" onClick={this.handleToggleCheck}></button>
                   <button className="uk-icon-link uk-margin-medium-right" uk-icon="bolt" onClick={()=>{alert('기능 준비중입니다.')}}></button>
                   <button className="uk-icon-link uk-margin-medium-right" uk-icon="file-edit" onClick={this.handleToggleEdit}></button>
                   <button className="uk-icon-link" uk-icon="trash" onClick={this.handleRemove}></button>

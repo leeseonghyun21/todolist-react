@@ -42,6 +42,7 @@ class App extends Component {
     const { todos } = this.state;
     // 토글링해야하는 객체의 id 검색
     const index = todos.findIndex(todos => todos.id === id);
+
     // 찾은 객체에서 나머지부분은 그대로 냅두고 done값 반전.
     const toggled = {...todos[index],
       done: !todos[index].done
@@ -54,6 +55,7 @@ class App extends Component {
         ...todos.slice(index + 1, todos.length)
       ]
     });
+    return todos[index].done;
   }
 
   handleInsert = (data) => {
@@ -93,7 +95,7 @@ class App extends Component {
         <PageTemplate>
           <TodoInput onInsert={this.handleInsert}/>
           <input 
-            className="uk-input uk-form-width-medium uk-margin"
+            className="uk-input uk-form-width-medium uk-form-width-small@s uk-margin"
             placeholder="검색"
             onChange={(e) => {this.setState({
               keyword: e.target.value});}}

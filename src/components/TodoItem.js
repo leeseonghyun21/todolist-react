@@ -1,38 +1,61 @@
 import React, { Component, Fragment } from 'react';
+
 import DatePicker from 'react-datepicker';
+import { CompactPicker } from 'react-color';
 
 import '../styles/TodoItem.scss';
 
 class TodoItem extends Component {
   state = {
+    displayColorPicker: false,
     editing: false,
     text: '',
     date: '',
+    color: '#000'
   }
-
+  
   dateFormat = 'YYYY/MM/DD';
-
+  
   handleTextChange = (e) => {
     this.setState({
       text: e.target.value
     });
   }
-
+  
   handleDateChange = (d) => {
     this.setState({
       date: d
     });
   }
-
+  
+  handleColorChange = (color) => {
+    this.setState({
+      color: color.hex
+    });
+  };
+  
+  handleColorClick = () => {
+    this.setState({
+      displayColorPicker: !this.state.displayColorPicker
+    });
+  };
+  
+  handleClose = () => {
+    this.setState({
+      displayColorPicker: false
+    });
+  };
+  
+  
   handleRemove = (e) => {
     this.props.onRemove();
     e.stopPropagation();
   }
-
+  
   handlePress = (e) => {
     if(e.key === 'Enter') this.handleToggleEdit();
   }
-
+  
   handleToggleCheck = (id) => {
     if(this.props.onDone(id)){
       this.textRef.classList.remove('done');
@@ -41,9 +64,13 @@ class TodoItem extends Component {
       this.textRef.classList.add('done');
     }
   }
-
+  
   handleToggleEdit = () => {
     const{ todo, onUpdate } = this.props;
+    
+    this.setState({
+      editing: !this.state.editing
+    });
     
     if(this.state.editing) {
       onUpdate(todo.id, {
@@ -57,42 +84,65 @@ class TodoItem extends Component {
         date: todo.date
       });
     }
-    this.setState({
-      editing: !this.state.editing
-    });
   }
-
+  
   render() {
-    const { editing } = this.state;
+    const { editing, displayColorPicker } = this.state;
     const { text, date } = this.props.todo;
-
+    const colorbox ={
+      width: '30px',
+      height: '20px',
+      borderRadius: '2px',
+      background: this.state.color
+    };
+    
     return (
       <div>
         <div className="uk-card uk-card-default uk-card-hover">
           <div className="uk-card-header">
-            {
-              editing ? (
-                <DatePicker 
-                  className="uk-input"
-                  selected={this.state.date}
-                  onChange={this.handleDateChange}
-                  dateFormat="YYYY/MM/DD"                  
-                />
-              ) : (
-                <p>{date.format('YYYY/MM/DD')}</p>
-              )
-            }
+            <div className="uk-grid uk-flex">
+              {
+                editing ? (
+                  <Fragment>
+                    <DatePicker 
+                      className="uk-input uk-form-small"
+                      selected={this.state.date}
+                      onChange={this.handleDateChange}
+                      dateFormat="YYYY/MM/DD"                  
+                    />
+                  </Fragment>
+                ) : (
+                  <Fragment>
+                    <div className="uk-width-auto">
+                      <p>{date.format('YYYY/MM/DD')}</p>
+                    </div>
+                  </Fragment>
+                )
+              }
+              <div className="uk-width-expand uk-text-right">
+                <div style={colorbox} className="uk-inline colorbox" onClick={this.handleColorClick}></div>
+                { 
+                  (editing && displayColorPicker) ? 
+                    <div className="popover">
+                      <div className="cover"/>
+                      <CompactPicker color={ this.state.color } onChange={this.handleColorChange} onChangeComplete={this.handleClose} />
+                    </div> : 
+                    null 
+                }
+              </div>
+            </div>
           </div>
           <div className="uk-card-body">
             {
               editing ? (
                 <Fragment>
                   <input
-                    className="uk-input" 
+                    className="uk-input uk-form-small" 
                     placeholder="수정할 내용" 
                     onChange={this.handleTextChange}
                     onKeyPress={this.handlePress}
-                    value={this.state.text}/> 
+                    value={this.state.text}
+                  /> 
                 </Fragment>
               ) : (
                 <p
@@ -107,8 +157,13 @@ class TodoItem extends Component {
             {
               editing ? (
                 <Fragment>
-                  <button className="uk-icon-link uk-margin-medium-right" uk-icon="close" onClick={this.handleToggle}></button>
-                  <button className="uk-icon-link uk-margin-medium-right" uk-icon="paint-bucket" onClick={()=>{alert('기능 준비중입니다.')}}></button>
+                  <button 
+                    className="uk-icon-link uk-margin-medium-right"
+                    uk-icon="close" 
+                    onClick={() => {this.setState({ editing: !this.state.editing})}}></button>
+                  <div className="uk-inline">
+                    
+                  </div>
                   <button className="uk-icon-link uk-margin-medium-right" uk-icon="check" onClick={this.handleToggleEdit}></button>
                 </Fragment>
               ) : (

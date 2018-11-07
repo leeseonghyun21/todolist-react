@@ -9,6 +9,7 @@ class TodoItem extends Component {
   state = {
     displayColorPicker: false,
     editing: false,
+    isUrgent: false,
     text: '',
     date: '',
     color: '#000'
@@ -55,6 +56,23 @@ class TodoItem extends Component {
   handlePress = (e) => {
     if(e.key === 'Enter') this.handleToggleEdit();
   }
+
+  handleToggleUrgent = () => {
+    const { isUrgent } = this.state;
+    console.log('isUrgent = ' + isUrgent);
+    if(isUrgent) {
+      this.cardRef.classList.remove('urgent');
+      this.setState({
+        isUrgent: !isUrgent
+      });
+      
+    } else {
+      this.cardRef.classList.add('urgent');
+      this.setState({
+        isUrgent: !isUrgent
+      });
+    }
+  }
   
   handleToggleCheck = (id) => {
     if(this.props.onDone(id)){
@@ -64,6 +82,8 @@ class TodoItem extends Component {
       this.textRef.classList.add('done');
     }
   }
+
+  
   
   handleToggleEdit = () => {
     const{ todo, onUpdate } = this.props;
@@ -98,7 +118,9 @@ class TodoItem extends Component {
     
     return (
       <div>
-        <div className="uk-card uk-card-default uk-card-hover">
+        <div 
+          className="uk-card uk-card-default uk-card-hover"
+          ref={(ref) => {this.cardRef = ref}}>
           <div className="uk-card-header">
             <div className="uk-grid uk-flex">
               {
@@ -136,8 +158,8 @@ class TodoItem extends Component {
             {
               editing ? (
                 <Fragment>
-                  <input
-                    className="uk-input uk-form-small" 
+                  <textarea
+                    className="uk-textarea uk-form-small" 
                     placeholder="수정할 내용" 
                     onChange={this.handleTextChange}
                     onKeyPress={this.handlePress}
@@ -169,7 +191,7 @@ class TodoItem extends Component {
               ) : (
                 <Fragment>
                   <button className="uk-icon-link uk-margin-medium-right" uk-icon="check" onClick={this.handleToggleCheck}></button>
-                  <button className="uk-icon-link uk-margin-medium-right" uk-icon="bolt" onClick={()=>{alert('기능 준비중입니다.')}}></button>
+                  <button className="uk-icon-link uk-margin-medium-right" uk-icon="bolt" onClick={this.handleToggleUrgent}></button>
                   <button className="uk-icon-link uk-margin-medium-right" uk-icon="file-edit" onClick={this.handleToggleEdit}></button>
                   <button className="uk-icon-link" uk-icon="trash" onClick={this.handleRemove}></button>
                 </Fragment>

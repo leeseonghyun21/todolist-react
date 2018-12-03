@@ -1,29 +1,37 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 
+import LeftCol from './LeftCol';
 import PageTemplate from './PageTemplate';
-import TodoInput from './TodoInput';
+import NavBar from './NavBar';
 import TodoList from './TodoList';
 
 import '../styles/App.scss';
 
 
 class App extends Component {
+
+  id = 1;
+
   constructor(props) {
     super(props);
     this.state = {
       todos: [
-        {id: 0, text: '리액트 공부하기', date:moment(), done: false},
-        {id: 1, text: '리덕스 예습하기', date:moment(), done: false}
+        {id: 0, text: '리액트 공부하기', date:moment(), color: '#ffffff', done: false},
+        {id: 1, text: '리덕스 예습하기', date:moment(), color: '#000000', done: false}
       ],
       keyword: ''
     };
   }
 
-  id = 1;
-  
   getId = () => {
     return ++this.id;
+  }
+
+  handleTextChange = (keyword) => {
+    this.setState({
+      keyword: keyword
+    });
   }
 
   handleUpdate = (id, data) => {
@@ -66,15 +74,16 @@ class App extends Component {
         id: this.getId(),
         text: data.text,
         date: data.date,
+        color: data.color,
         done: false
       };
       this.setState({
         todos:[...todos, newTodo ],
       });
-      console.log(todos);
     }
     else {
       alert('내용을 입력하세요!');
+      return false;
     }
   }
 
@@ -93,13 +102,8 @@ class App extends Component {
     return(
       <div>
         <PageTemplate>
-          <TodoInput onInsert={this.handleInsert}/>
-          <input 
-            className="uk-input uk-form-width-medium uk-form-width-small@s uk-margin"
-            placeholder="검색"
-            onChange={(e) => {this.setState({
-              keyword: e.target.value});}}
-          />
+          <LeftCol/>
+          <NavBar onChange={this.handleTextChange} onInsert={this.handleInsert}/>  
           <TodoList
             todos={todos.filter(
               todo => todo.text.indexOf(this.state.keyword) > -1

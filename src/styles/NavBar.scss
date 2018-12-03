@@ -1,0 +1,21 @@
+.uk-navbar {
+  height: 60px;
+
+  padding-right: 20px;
+  margin-bottom: 1rem; // 임시 방편
+
+  border-bottom: 1px solid #E5E5E5;
+
+  .todo-input {
+    display: flex;
+  
+    input {
+      margin-right: 1rem;
+      padding-right: 0; 
+    }
+  
+    button {
+      display: flex;
+    }
+  }
+}

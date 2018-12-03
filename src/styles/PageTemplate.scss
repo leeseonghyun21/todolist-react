@@ -1,8 +1,15 @@
-.page-template {
-  margin-top: 2rem;
+@media only screen and (min-width: 769px) {
+  .page-template {
+    margin-left: 240px;
+  }
+}
 
+.page-template {
   h1 {
     text-align: center;
     font-weight: 300;
+  }
+  .contents {
+    padding: 0 2rem;
   }
 }

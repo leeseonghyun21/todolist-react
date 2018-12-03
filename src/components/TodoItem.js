@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 
 import DatePicker from 'react-datepicker';
-import { CompactPicker } from 'react-color';
+import { CirclePicker } from 'react-color';
 
 import '../styles/TodoItem.scss';
 
@@ -81,9 +81,7 @@ class TodoItem extends Component {
     else {
       this.textRef.classList.add('done');
     }
-  }
-
-  
+  }  
   
   handleToggleEdit = () => {
     const{ todo, onUpdate } = this.props;
@@ -108,12 +106,12 @@ class TodoItem extends Component {
   
   render() {
     const { editing, displayColorPicker } = this.state;
-    const { text, date } = this.props.todo;
+    const { text, date, color } = this.props.todo;
     const colorbox ={
       width: '30px',
       height: '20px',
       borderRadius: '2px',
-      background: this.state.color
+      background: color
     };
     
     return (
@@ -147,7 +145,7 @@ class TodoItem extends Component {
                   (editing && displayColorPicker) ? 
                     <div className="popover">
                       <div className="cover"/>
-                      <CompactPicker color={ this.state.color } onChange={this.handleColorChange} onChangeComplete={this.handleClose} />
+                      <CirclePicker color={ this.state.color } onChange={this.handleColorChange} onChangeComplete={this.handleClose} />
                     </div> : 
                     null 
                 }

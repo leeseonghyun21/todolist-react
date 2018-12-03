@@ -6,7 +6,7 @@
     "classnames": "^2.2.6",
     "include-media": "^1.4.9",
     "moment": "^2.22.2",
-    "node-sass": "^4.9.3",
+    "node-sass": "^4.10.0",
     "open-color": "^1.6.3",
     "react": "^16.5.2",
     "react-color": "^2.14.1",
